@@ -1,6 +1,6 @@
 {
-    "name": "movies",
-    "short_name": "movies",
+    "name": "videogames",
+    "short_name": "videogames",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

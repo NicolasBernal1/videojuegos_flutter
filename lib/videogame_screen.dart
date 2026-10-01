@@ -55,7 +55,7 @@ class _VideoGameScreenState extends State<VideoGameScreen> {
 
     // En la version final cargamos automaticamente
     // cuando nace la pantalla.
-    _service = VideoGameService('https://dummyjson.com/c/9b8d-d4ea-4bc2-8601');
+    _service = VideoGameService('https://dummyjson.com/c/0c1f-cc49-47ca-b49b');
     _futureVideoGames = _service.getVideoGames();
     loadFavorite();
   }

@@ -34,4 +34,13 @@ class VideoGameNoteStorage {
     final notes = await _readAll();
     return notes.where((n) => n.videoGameId == videoGameId).firstOrNull;
   }
+
+  Future<void> saveNote(VideoGameNote note)async {
+    final notes = await _readAll();
+
+    notes.removeWhere((item) => item.videoGameId == note.videoGameId);
+    notes.add(note);
+
+    await _writeAll(notes);
+  }
 }
