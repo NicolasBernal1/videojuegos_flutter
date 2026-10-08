@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "359957943767",
+    "project_id": "movil-2026",
+    "storage_bucket": "movil-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359957943767:android:f66606742df1ae035da792",
+        "android_client_info": {
+          "package_name": "com.example.videogames"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcNAyBoCpF6eXri6fhfhxPYnNdZCRucsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
