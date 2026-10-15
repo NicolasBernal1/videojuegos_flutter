@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:videogames/models/videogame.dart';
 import 'package:videogames/models/videogame_note.dart';
+import 'package:videogames/repositories/videogame_note_repository.dart';
 import 'package:videogames/services/videogame_note_storage.dart';
 
 class VideoGameDetailPage extends StatefulWidget {
   final VideoGame videogame;
-  const VideoGameDetailPage({super.key, required this.videogame});
+  final VideogameNoteRepository noteRepository;
+
+  const VideoGameDetailPage({super.key, required this.videogame, required this.noteRepository});
   @override
   State<VideoGameDetailPage> createState() => _VideoGameDetailPageState();
 }
@@ -28,7 +31,7 @@ class _VideoGameDetailPageState extends State<VideoGameDetailPage> {
   }
 
   Future<void> _loadLocalNote() async {
-    final saved = await _storage.getNoteForVideoGame(widget.videogame.id);
+    final saved = await widget.noteRepository.getNoteForVideogame(widget.videogame.id);
     if (!mounted || saved == null) return;
 
     setState(() {
@@ -45,7 +48,7 @@ class _VideoGameDetailPageState extends State<VideoGameDetailPage> {
       updatedAt: DateTime.now(),
     );
 
-    await _storage.saveNote(note);
+    await widget.noteRepository.saveNote(note);
 
     if (!mounted) return;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:videogames/repositories/videogame_note_repository.dart';
 import 'package:videogames/videogame_card.dart';
 import 'package:videogames/videogame_detail.dart';
 import 'package:videogames/services/videogame_service.dart';
@@ -6,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'models/videogame.dart';
 
 class VideoGameScreen extends StatefulWidget {
-  const VideoGameScreen({super.key});
+  final VideogameNoteRepository noteRepository;
+  const VideoGameScreen({super.key, required this.noteRepository});
 
   @override
   State<VideoGameScreen> createState() => _VideoGameScreenState();
@@ -26,7 +28,7 @@ class _VideoGameScreenState extends State<VideoGameScreen> {
   // CICLO DE VIDA
   // -----------------------------
 
-  void retryVideoGameList(){
+  void retryVideoGameList() {
     setState(() {
       _futureVideoGames = _service.getVideoGames();
     });
@@ -67,7 +69,12 @@ class _VideoGameScreenState extends State<VideoGameScreen> {
   void openVideoGameDetail(VideoGame videoGame) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => VideoGameDetailPage(videogame: videoGame)),
+      MaterialPageRoute(
+        builder: (_) => VideoGameDetailPage(
+          videogame: videoGame,
+          noteRepository: widget.noteRepository,
+        ),
+      ),
     );
   }
 
@@ -82,7 +89,19 @@ class _VideoGameScreenState extends State<VideoGameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
-      appBar: AppBar(title: const Text('Mis videojuegos'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Mis videojuegos'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            tooltip: 'Sincronizar notas',
+            icon: const Icon(Icons.sync),
+            onPressed: () async {
+              await widget.noteRepository.syncPending();
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
