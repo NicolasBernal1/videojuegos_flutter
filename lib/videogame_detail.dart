@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:videogames/models/videogame.dart';
 import 'package:videogames/models/videogame_note.dart';
 import 'package:videogames/repositories/videogame_note_repository.dart';
-import 'package:videogames/services/videogame_note_storage.dart';
 
 class VideoGameDetailPage extends StatefulWidget {
   final VideoGame videogame;
@@ -14,7 +13,6 @@ class VideoGameDetailPage extends StatefulWidget {
 }
 
 class _VideoGameDetailPageState extends State<VideoGameDetailPage> {
-  final VideoGameNoteStorage _storage = VideoGameNoteStorage();
   final TextEditingController _noteController = TextEditingController();
   int _rating = 0;
 

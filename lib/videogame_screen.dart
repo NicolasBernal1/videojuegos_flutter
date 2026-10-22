@@ -4,6 +4,9 @@ import 'package:videogames/videogame_card.dart';
 import 'package:videogames/videogame_detail.dart';
 import 'package:videogames/services/videogame_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:videogames/widgets/empty_view.dart';
+import 'package:videogames/widgets/error_view.dart';
+import 'package:videogames/widgets/loading_view.dart';
 import 'models/videogame.dart';
 
 class VideoGameScreen extends StatefulWidget {
@@ -122,55 +125,17 @@ class _VideoGameScreenState extends State<VideoGameScreen> {
       future: _futureVideoGames,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingView();
         }
 
         if (snapshot.hasError) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.cloud_off_outlined, size: 48),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'No pudimos cargar los videojuegos',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton.icon(
-                    onPressed: retryVideoGameList,
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Reintentar'),
-                  ),
-                ],
-              ),
-            ),
-          );
+          return ErrorView(message: "No pudimos cargar videojuegos", onRetry: retryVideoGameList);
         }
 
         final videoGames = snapshot.data ?? [];
 
         if (videoGames.isEmpty) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.gamepad_outlined, size: 48),
-                  SizedBox(height: 16),
-                  Text(
-                    'Todavía no hay videojuegos disponibles',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-          );
+          return EmptyView(message: "No se encontraron videojuegos");
         }
 
         return ListView.builder(

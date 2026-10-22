@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:videogames/core/app_logger.dart';
 import 'package:videogames/models/videogame.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,6 +27,7 @@ class VideoGameService {
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
 
+        AppLogger.debug('Videojuegos cargados: ${data.length} videojuegos cargados');
         return data.map((item) => VideoGame.fromJson(item)).toList();
       }
 
@@ -37,7 +39,8 @@ class VideoGameService {
         throw const ApiException("Server does not exist");
       }
       throw ApiException('Error HTTP ${response.statusCode}');
-    } on TimeoutException {
+    } catch (e, st) {
+      AppLogger.error("No se cargaron correctamente los videojuegos, sin conexion al servidor", e, st);
       throw const ApiException('The server took too much time to response');
     }
   }
